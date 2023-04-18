@@ -4,7 +4,18 @@ const app = express();
 const hbs = require("hbs");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sessions=require("express-session");
+const cookieParser=require("cookie-parser");
+app.use(cookieParser());
+const oneDay = 1000 * 60 * 60 * 24;
 
+//session middleware
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
 require("./db/conn");
 const Register = require("./models/registers");
 const { json } = require("express");
@@ -26,7 +37,13 @@ hbs.registerPartials(partials_path);
 
 
 app.get("/", (req, res) => {
-    res.render("index")
+    session=req.session;
+    console.log("index");
+    console.log(session);
+    if(session.userid)
+    res.render("index",{ctxt:true,sess: session});
+    else
+    res.render("index",{ctxt: false})
 });
 
 app.get("/register", (req, res) =>{
@@ -57,18 +74,20 @@ app.post("/register", async (req, res) =>{
                 confirmpassword:req.body.confirmpassword    
         })
 
-        console.log("the success part" + registerEmployee);
+        
 
         const token = await registerEmployee.generateAuthToken();
-        console.log("the token part" + token);
+       
 
         const registered = await registerEmployee.save();
-        console.log("the page part" + registered);
 
-        res.status(201).render("index");
+
+        res.status(201).redirect("/");
 
       }else{
-          res.send("password are not matching")
+          res.render("index",{
+            message: "Passwords do not match"
+          })
       }
         
     } catch (error) {
@@ -91,16 +110,17 @@ app.post("/login", async(req, res) =>{
         const isMatch = await bcrypt.compare(password, useremail.password);
 
         const token = await useremail.generateAuthToken();
-        console.log("the token part" + token);
        
         if(isMatch){
-            res.status(201).render("index");
+            session=req.session;
+            session.userid=useremail;
+            res.status(201).redirect("/");
         }else{
-           res.send("invalid Password Details"); 
+           res.render("login",{message:"invalid Password Details"}); 
         }
     
    } catch (error) {
-       res.status(400).send("invalid login Details")
+       res.status(400).render("login",{message:"invalid login Details"});
    }
 })
 
