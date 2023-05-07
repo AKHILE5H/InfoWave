@@ -152,6 +152,7 @@ app.post("/login", async (req, res) => {
 // createToken();
 
 app.post("/submit-form", (req, res) => {
+  session = req.session;
   const searchTerm = req.body["search-term"];
   const category = req.body.category;
   const language = req.body.language;
@@ -183,8 +184,9 @@ app.post("/submit-form", (req, res) => {
       articles = data.articles;
       //res.render("news", { articles });
       //res.render('news', { myArray: articles });
-      res.render('landing', { myArray: articles });
-      console.log(articles[0]);
+      //res.render('landing', { myArray: articles });
+      if (session.userid) res.render("landing", { myArray: articles,ctxt: true, sess: session });
+      else res.render("landing", { myArray: articles,ctxt: false });
     });
 });
 

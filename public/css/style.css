@@ -84,7 +84,7 @@
   padding: 2%;
   height: 34px;
   font-weight: 600;
-  color: #fff;
+  /* //color: #fff; */
   border-top-right-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
 }
@@ -198,6 +198,9 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+.form-group{
+  margin: 10px;
 }
 .account-wall {
   margin-top: 20px;
