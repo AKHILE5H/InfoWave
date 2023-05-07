@@ -5,8 +5,8 @@
     {{>header}}
 </head>
 
-<body>
-    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+<body style="font-family: 'Lato', sans-serif; background-color:#F1F6F9;">
+    <nav class="navbar navbar-expand-lg " style="background-color:#212A3E; color: #F1F6F9;">
         <div class="container">
             <a class="navbar-brand text-white" href="/">Latest News</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -14,12 +14,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
     
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
+            <div class="collapse navbar-collapse d-flex flex-row" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item active">
                         <a class="nav-link text-white" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item me-1">
                         {{#if ctxt}}
                         <div class="text-white h-100 w-100 mr-2 d-flex justify-content-center align-middle"><span class="m-auto">Welcome </span></div>
                         {{else}}
@@ -28,10 +28,13 @@
                     </li>
                     <li class="nav-item">
                         {{#if ctxt}}
-                        <div class="text-white h-100 w-100 d-flex justify-content-center align-middle"><span class="m-auto"><b>{{sess.userid.firstname}} {{sess.userid.lastname}} </b></span></div>
+                        <div class="text-white h-100 w-100 d-flex justify-content-center align-middle"><span class="m-auto"><b> {{sess.userid.firstname}} {{sess.userid.lastname}} </b></span></div>
                         {{else}}
                         <a class="nav-link text-white" href="/register">Registration</a>
                         {{/if}}
+                    </li>
+                    <li class="nav-item">
+                        <a href="/landing" class="nav-link text-white">Search</a>
                     </li>
                 </ul>
     
@@ -45,7 +48,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="te text-center text-white">
-                        <h1>Now look for news with your own preference!</h1>
+                        <h1>Welcome to your News App! </h1>
                         
                     </div>
                 </div>
@@ -53,29 +56,20 @@
         </div>
     </header>
     <section id="about-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
+        <div class="w-100">
+            <div class="row d-flex w-100">
+                <div class="col-md-4 m-auto">
                     <div class="about-text border-right">
-                        <h1>Megna tempus sed amet aliquam veroeros</h1>
-                        <p class="">It is a long established fact that a reader will be distracted by the readable
-                            content of a page when looking at its layout.</p>
+                        <h1>About us</h1>
+                        <p class="">Here you can find the latest stories that match your interests and preferences. You can browse different categories, such as world, business, sports, entertainment, and more. You can also customise the searched by adding topics, sources, and languages. </p>
                         {{!-- <button class="btn btn-primary">More</button> --}}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="about-text border-right">
-                        <h1>Megna tempus sed amet aliquam veroeros</h1>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a
-                            page when looking at its layout.</p>
-                        {{!-- <button class="btn btn-primary">More</button> --}}
-                    </div>
-                </div>
-                <div class="col-md-4">
+                
+                <div class="col-md-4 m-auto">
                     <div class="about-text">
-                        <h1>Megna tempus sed amet aliquam veroeros</h1>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a
-                            page when looking at its layout.</p>
+                        <h1>How to use this website</h1>
+                        <p>Choose your topics of interest from the list of categories or keywords provided by the app. You can also search for specific topics or sources that you want to see.  You can change the language, and order of the news articles that you receive</p>
                         {{!-- <button class="btn btn-primary">More</button> --}}
                     </div>
                 </div>
@@ -83,15 +77,15 @@
         </div>
     </section>
 
-    <section id="team-section">
+    <section id="team-section" b>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="team-top-header text-center">
-                        <h1>Team Member</h1>
-                        <p>About Us!!!</p>
+                        <h1>Team Members</h1>
+                        
                     </div>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-md-3">
                             <div class="team-member-id text-center border">
                                 <img class="img-fluid rounded-circle"

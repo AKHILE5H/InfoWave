@@ -229,3 +229,9 @@
   display: block;
   margin-top: 10px;
 }
+.transform-animation{
+  transition: transform 0.3s;
+}
+.transform-animation:hover{
+  transform: scale(1.05);
+}
