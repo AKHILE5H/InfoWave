@@ -53,11 +53,12 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 app.get("/landing", (req, res) => {
-  session = req.session;
+  var session = req.session;
+  
   console.log("landing");
   console.log(session);
   if (session.userid) res.render("landing", { ctxt: true, sess: session });
-  else res.render("landing", { ctxt: false });
+  else res.status(201).redirect("/");
 });
 
 app.get("/news", (req, res) => {
@@ -112,7 +113,7 @@ app.post("/login", async (req, res) => {
     const token = await useremail.generateAuthToken();
 
     if (isMatch) {
-      session = req.session;
+      var session = req.session;
       session.userid = useremail;
       res.status(201).redirect("/landing");
     } else {
@@ -151,8 +152,8 @@ app.post("/login", async (req, res) => {
 
 // createToken();
 
-app.post("/submit-form", (req, res) => {
-  session = req.session;
+app.post("/landing", (req, res) => {
+  var session = req.session;
   const searchTerm = req.body["search-term"];
   const category = req.body.category;
   const language = req.body.language;
@@ -186,7 +187,7 @@ app.post("/submit-form", (req, res) => {
       //res.render('news', { myArray: articles });
       //res.render('landing', { myArray: articles });
       if (session.userid) res.render("landing", { myArray: articles,ctxt: true, sess: session });
-      else res.render("landing", { myArray: articles,ctxt: false });
+      else res.redirect(201,"/");
     });
 });
 
