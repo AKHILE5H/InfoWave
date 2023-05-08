@@ -94,7 +94,7 @@ app.post("/register", async (req, res) => {
     }
   } catch (error) {
     res.status(400).send(error);
-    console.log("the error part page ");
+    console.log("the error part page "+error);
   }
 });
 
@@ -151,7 +151,7 @@ app.post("/login", async (req, res) => {
 
 // createToken();
 
-app.post("/submit-form", (req, res) => {
+app.post("/landing", (req, res) => {
   session = req.session;
   const searchTerm = req.body["search-term"];
   const category = req.body.category;
