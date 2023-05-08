@@ -115,7 +115,7 @@ app.post("/register", async (req, res) => {
     }
   } catch (error) {
     res.status(400).send(error);
-    console.log("the error part page ");
+    console.log("the error part page "+error);
   }
 });
 
@@ -196,6 +196,7 @@ app.get("/favourite",(req,res)=>{
 }
 )
 app.post("/landing", (req, res) => {
+  session = req.session;
   var session = req.session;
   const searchTerm = req.body["search-term"];
   const category = req.body.category;
