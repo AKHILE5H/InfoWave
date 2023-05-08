@@ -6,9 +6,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sessions = require("express-session");
 const cookieParser = require("cookie-parser");
+const handle=require("express-handlebars")
 app.use(cookieParser());
 const oneDay = 1000 * 60 * 60 * 24;
-
 //session middleware
 app.use(
   sessions({
@@ -22,6 +22,7 @@ require("./db/conn");
 const Register = require("./models/registers");
 const { json } = require("express");
 const { log } = require("console");
+const { request } = require("http");
 
 const port = process.env.PORT || 3000;
 
@@ -36,8 +37,10 @@ app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
-
+var art;
 app.get("/", (req, res) => {
+  
+  art=[];
   session = req.session;
   console.log("index");
   console.log(session);
@@ -46,18 +49,35 @@ app.get("/", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
+  
+  art=[];
   res.render("register");
 });
 
 app.get("/login", (req, res) => {
+  art=[];
   res.render("login");
+});
+var yy = handle.create({});
+hbs.registerHelper('lookup2', function(collection, url) {
+  
+  var collectionLength = art.length;
+
+  for (var i = 0; i < collectionLength; i++) {
+      if (art[i].url === url) {
+          return art[i];
+      }
+
+  }
+
+  return null;
 });
 app.get("/landing", (req, res) => {
   var session = req.session;
   
   console.log("landing");
-  console.log(session);
-  if (session.userid) res.render("landing", { ctxt: true, sess: session });
+ 
+  if (session.userid) res.render("landing", { ctxt: true, sess: session ,myArray: art});
   else res.status(201).redirect("/");
 });
 
@@ -102,6 +122,7 @@ app.post("/register", async (req, res) => {
 // login check
 
 app.post("/login", async (req, res) => {
+
   try {
     const email = req.body.email;
     const password = req.body.password;
@@ -152,6 +173,28 @@ app.post("/login", async (req, res) => {
 
 // createToken();
 
+app.get("/favourite/:id",(req,res)=>{
+    var id=req.params.id;
+    var sz=art.length;
+    for( let i=0; i<sz; ++i){
+      if(i==id){
+        Register.findOne({_id:req.session.userid._id}).then(user =>{ user["savedNews"].push(art[i]); user.save();})
+      }
+      
+    }
+    console.log(req.session.userid.savedNews); 
+   res.redirect("/landing");
+  }
+  
+)
+app.get("/favourite",(req,res)=>{
+  var session=req.session;
+  console.log(session.userid.savedNews);
+  // res.json(session.userid.savedNews);
+  res.render("favourite", { myArray: session.userid.savedNews,ctxt: true, sess: session });
+      
+}
+)
 app.post("/landing", (req, res) => {
   var session = req.session;
   const searchTerm = req.body["search-term"];
@@ -161,11 +204,7 @@ app.post("/landing", (req, res) => {
   const sortBy = req.body["sort-by"];
 
   // Here, you can perform any desired operations with the received parameters, such as console logging or saving to a database.
-  console.log("Search term:", searchTerm);
-  console.log("Category:", category);
-  console.log("Language:", language);
-  console.log("Country:", country);
-  console.log("Sort by:", sortBy);
+
 
   url =
     "https://gnews.io/api/v4/search?q=" +
@@ -183,14 +222,19 @@ app.post("/landing", (req, res) => {
     })
     .then(function (data) {
       articles = data.articles;
-      //res.render("news", { articles });
-      //res.render('news', { myArray: articles });
-      //res.render('landing', { myArray: articles });
+      art=articles;
+      console.log(typeof(articles[0]));
       if (session.userid) res.render("landing", { myArray: articles,ctxt: true, sess: session });
       else res.redirect(201,"/");
     });
 });
 
+app.get("/logout",(req,res)=>{
+  art=[];
+  console.log(req.session)
+  req.session.destroy();
+  res.redirect(201,"/");
+})
 app.listen(port, () => {
   console.log(`server is running at port no ${port}`);
 });

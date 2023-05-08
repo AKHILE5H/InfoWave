@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="m-0 w-100 h-100 p-0 d-flex">
+
+<head>
+    {{>header}}
+<style>
+  
+</style>
+</head>
+
+<body class="m-0 w-100 h-100 p-0 d-flex flex-column" style="font-family: 'Lato', sans-serif;background-color:#F1F6F9;">
+  <nav class="navbar navbar-expand-lg " style="background-color:#212A3E; color: #F1F6F9;">
+    <div class="container">
+        <a class="navbar-brand text-white" href="/">Latest News</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-flex flex-row" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                
+                <li class="nav-item active">
+                  <a href="/landing" class="nav-link text-white">Search</a>
+              </li>
+              <li class="nav-item ms-3 me-1">
+                {{#if ctxt}}
+                <div class="text-white h-100 w-100 mr-2 d-flex justify-content-center align-middle"><span class="m-auto">Welcome </span></div>
+                {{else}}
+                <a class="nav-link text-white" href="/login">Login</a>
+                {{/if}}
+            </li>
+            <li class="nav-item">
+                {{#if ctxt}}
+                <div class="text-white h-100 w-100 d-flex justify-content-center align-middle"><span class="m-auto"><b> {{sess.userid.firstname}} {{sess.userid.lastname}} </b></span></div>
+                {{else}}
+                <a class="nav-link text-white" href="/register">Registration</a>
+                {{/if}}
+            </li>
+            <li class="nav-item">
+              {{#if ctxt}}
+              <a class="nav-link text-white" href="/logout">Logout</a>
+              {{/if}}
+            </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+    
+
+
+
+    </div>
+<div class="d-flex w-100 flex-column m-0 pt-4 p-0">
+  {{#each myArray}}
+  <div class="card my-4 w-75 d-flex transform-animation flex-row mx-auto">
+    <div class="card-body w-75">
+
+      <h5 class="card-title">{{title}}</h5>
+      <p class="card-text">{{description}}</p>
+      <a href="{{url}}" class="btn btn-primary">Read More</a></div>
+    <div class="bg-image rounded hover-overlay ripple w-25" data-mdb-ripple-color="light">
+      <img src="{{image}}" class="w-100 h-100"/>
+    </div>
+    
+  </div>
+  {{/each}}
+</div>
+
+
+</body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+</html>

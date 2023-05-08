@@ -42,7 +42,11 @@ const employeeSchema = new mongoose.Schema({
             type:String,
             required:true
         }
-    }]
+    }],
+    savedNews:{
+        type: Array,
+        required: false
+    }
     
 })
 
@@ -58,6 +62,13 @@ employeeSchema.methods.generateAuthToken = async function(){
        res.send("the error part" + error);
        console.log("the error part" + error);
    }
+}
+employeeSchema.methods.addtoFavourite=async function(art,id){
+    for (let index = 0; index < art.length; index++) {
+        if(index==id){
+            this.savedNews.concat(art[index]);
+        }  
+    }
 }
 
 // converting password into hash 
